@@ -18,7 +18,7 @@ class InstrutorBuscaSchema(BaseModel):
     cpf: str = "00000000000" 
     
 #estrutura getAll  
-class ListaInstrutorSchema(BaseModel):
+class ListaInstrutoresSchema(BaseModel):
     """ Define como a lista de instrutores será retornada """
     instrutores:List[InstrutorSchema]
     

@@ -19,7 +19,7 @@ class CfcBuscaSchema(BaseModel):
     codigo: str = "ac1215"
     
 #estrutura getAll  
-class ListaCfcSchema(BaseModel):
+class ListaCfcsSchema(BaseModel):
     """ Define como a lista de cfc será retornada """
     cfcs:List[CfcSchema]
 

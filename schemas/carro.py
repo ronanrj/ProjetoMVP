@@ -21,7 +21,7 @@ class CarroBuscaSchema(BaseModel):
     renavan: int = 2658568543
     
 #estrutura getAll  
-class ListaCarroSchema(BaseModel):
+class ListaCarrosSchema(BaseModel):
     """ Define como a lista de carro será retornada """
     carros:List[CarroSchema]
 

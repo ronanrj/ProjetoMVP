@@ -45,6 +45,6 @@ class Cfc(Base):
        """ Adiciona um novo instrutor na cfc """
        self.instrutores.append(instrutor)
                  
-    def adiciona_instrutor(self, carro:Carro):
+    def adiciona_carro(self, carro:Carro):
        """ Adiciona um novo carro na cfc """
        self.carros.append(carro)                 

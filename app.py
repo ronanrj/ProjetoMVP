@@ -3,6 +3,8 @@ from sqlalchemy.exc import IntegrityError
 from flask_cors import CORS
 from flask_openapi3 import OpenAPI, Info, Tag
 
+#from model import Cfc, Instrutor, Carro
+
 info = Info(title="Minha API", version="1.0.0")
 app = OpenAPI(__name__, info=info)
 CORS(app)

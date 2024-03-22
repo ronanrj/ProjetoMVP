@@ -1,0 +1,23 @@
+1 -------------------Construção models
+
+
+foi construido a pasta model,
+na qual foram criados 3 classes - cfc , instrutor e carro
+
+nestas classes , foram seus respectivos construtores
+
+na classe cfc , foi criado duas funcoes na qual adicionam carro e instrutores a cfc.
+
+Conforme mostrado na aula , foi realizado o relacionamento usando o sqlAlchemic 
+a chave da cfc é o relacionamento estre as tabelas . 
+
+No init do models foi utilizado o framework sqlalchemy para auxiliar na criação do banco de dados  sqlite
+e as tabelas e os relacionamentos.
+
+todas as classes herdam da classe Base, classe essa importante para a criação de novos objetos e tabelas
+no sqlAlchemic.
+
+2 ------------Criando Schemas
+
+importante para documentação 
+utiliza o pydantic 

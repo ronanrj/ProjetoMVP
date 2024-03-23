@@ -1,9 +1,12 @@
-from flask import redirect
-from sqlalchemy.exc import IntegrityError
-from flask_cors import CORS
 from flask_openapi3 import OpenAPI, Info, Tag
+from flask import redirect
+from urllib.parse import unquote
+from sqlalchemy.exc import IntegrityError
 
-#from model import Cfc, Instrutor, Carro
+from flask_cors import CORS
+
+from model import Session,Cfc, Instrutor, Carro
+#from schemas import *
 
 info = Info(title="Minha API", version="1.0.0")
 app = OpenAPI(__name__, info=info)

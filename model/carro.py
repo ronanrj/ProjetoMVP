@@ -7,15 +7,15 @@ from model import Base
 class Carro(Base):
     __tablename__ = 'carro'  
     
-    id = Column(Integer, unique=True)
-    renavan = Column(Integer,unique=True , primary_key=True)
+    id = Column(Integer)
+    renavan = Column(Integer,primary_key=True)
     placa = Column(String(10))
     marca = Column(String(20))
     modelo = Column(String(20))
     status = Column(Boolean)
     ultima_atualizacao = Column(DateTime,default=datetime.now())
     #relacionamento com a tabela cfc    
-    cfc = Column(String , ForeignKey("cfc.pk_cfc") , nullable=False)
+    cfc = Column(String , ForeignKey("cfc.codigo") , nullable=False)
     
     #construtor
     def __init__(self , renavan:int , placa:str, marca:str, modelo:str , status:Boolean , ultima_atualizacao:Union[DateTime,None] = None):

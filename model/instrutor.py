@@ -8,14 +8,14 @@ class Instrutor(Base):
     __tablename__ = 'instrutor'
     
     
-    id = Column(Integer, unique=True)
-    cpf = Column(String(20),unique=True , primary_key=True)
+    id = Column(Integer)
+    cpf = Column(String(20),primary_key=True)
     nome = Column(String(100))
     aula = Column(String(20))
     status = Column(Boolean)
     ultima_atualizacao = Column(DateTime,default=datetime.now())
     #relacionamento com a tabela cfc 
-    cfc = Column(String , ForeignKey("cfc.pk_cfc") , nullable=False)
+    cfc = Column(String , ForeignKey("cfc.codigo") , nullable=False)
     
     #construtor
     def __init__(self , cpf:str , nome:str, aula:str , status:Boolean , ultima_atualizacao:Union[DateTime,None] = None):

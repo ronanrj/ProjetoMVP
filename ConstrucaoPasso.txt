@@ -18,6 +18,7 @@ todas as classes herdam da classe Base, classe essa importante para a criação 
 no sqlAlchemic.
 
 2 ------------Criando Schemas
+instalado o pydantic e Pylance , pois ao criar o ambiente de desenvolvimento os mesmos estavam gerando erro.
 
 importante para documentação 
 utiliza o pydantic 

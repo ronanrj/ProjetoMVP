@@ -42,7 +42,7 @@ def apresenta_carros(carros:List[Carro]):
                                    
     return{"carros": result}
 
-class CfcViewSchema(BaseModel):
+class CarroViewSchema(BaseModel):
     """ Define como um carro será retornado"""
     id: int = 1
     renavan: int = 1
@@ -54,7 +54,7 @@ class CfcViewSchema(BaseModel):
     cfc = "ab132"
 
 #esquema delete        
-class CfcDelSchema(BaseModel):
+class CarroDelSchema(BaseModel):
     """ Define como deve ser a estrutura do dado retornado após uma requisição
         de remoção.
     """

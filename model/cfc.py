@@ -2,6 +2,7 @@ from sqlalchemy import Column, String, Integer, DateTime, Boolean
 from sqlalchemy.orm import relationship
 from datetime import datetime
 from typing import Union
+
 from model import Base , Instrutor , Carro
 
 
@@ -9,7 +10,7 @@ class Cfc(Base):
     __tablename__ = 'cfc'
     
     id = Column(Integer, unique=True)
-    codigo = Column("pk_cfc",String(20),unique=True , primary_key=True)
+    codigo = Column(String(20),unique=True , primary_key=True)
     nome = Column(String(100))
     cnpj = Column(String(20))
     status = Column(Boolean)

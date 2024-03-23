@@ -5,9 +5,9 @@ import os
 
 # importando os elementos definidos no modelo
 from model.base import Base
-from model.cfc import Cfc
 from model.carro import Carro
 from model.instrutor import Instrutor
+from model.cfc import Cfc
 
 
 db_path = "database/"

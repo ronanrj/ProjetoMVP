@@ -3,7 +3,7 @@ from pydantic import BaseModel
 from typing import List
 from model.cfc import Cfc
 
-from schemas import InstrutorSchema , CarroSchema
+from schemas import CarroSchema, InstrutorSchema
 #
 class CfcSchema(BaseModel):
     """ Define como um novo produto a ser inserido deve ser representado"""

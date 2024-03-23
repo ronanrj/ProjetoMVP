@@ -22,7 +22,7 @@ class ListaInstrutoresSchema(BaseModel):
     """ Define como a lista de instrutores será retornada """
     instrutores:List[InstrutorSchema]
     
-def apresenta_instrutores(instrutores:List[Instrutor]):
+def apresenta_instrutores(instrutores: List[Instrutor]):
     """ Retorna uma representação do instrutor seguindo o schema definido em InstrutorViewSchema."""
     result = []
     for instrutor in instrutores:

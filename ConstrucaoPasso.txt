@@ -20,5 +20,4 @@ no sqlAlchemic.
 2 ------------Criando Schemas
 instalado o pydantic e Pylance , pois ao criar o ambiente de desenvolvimento os mesmos estavam gerando erro.
 
-importante para documentação 
-utiliza o pydantic 
+problemas ao importar os schemas , verificado que a ordem dos modulos é importante para não dar redundância circular

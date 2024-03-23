@@ -10,6 +10,7 @@ from schemas import *
 
 info = Info(title="MVP - API - Auto Escola", version="1.0.0")
 app = OpenAPI(__name__, info=info)
+app.config['SWAGGER_BASEPATH'] = '/swagger'
 CORS(app)
 
 # definindo tags
@@ -18,11 +19,11 @@ cfc_tag = Tag(name="Cfc", description="Adição, visualização e remoção de c
 instrutor_tag = Tag(name="Instrutor", description="Adição, visualização e remoção de instrutor à base")
 # carro_tag = Tag(name="Carro", description="Adição, visualização e remoção de carro à base")
 
-# @app.get('/', tags=[home_tag])
-# def home():
-#     """Redireciona para /openapi, tela que permite a escolha do estilo de documentação.
-#     """
-#     return redirect('/openapi')
+@app.get('/', tags=[home_tag])
+def home():
+    """Redireciona para /openapi, tela que permite a escolha do estilo de documentação.
+    """
+    return redirect('/openapi')
 
 @app.post('/cfc', tags=[cfc_tag],
           responses={"200": CfcViewSchema, "409": ErrorSchema, "400": ErrorSchema})

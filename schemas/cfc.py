@@ -45,9 +45,9 @@ class CfcViewSchema(BaseModel):
     cnpj:str = "43515658000149"
     status = True
     regiao = "Bairro"
-    ultima_atualizacao = datetime.now()
-    instutores:List[InstrutorSchema]
-    carros:List[CarroSchema]
+    # ultima_atualizacao = datetime.now()
+    # instutores: List[InstrutorSchema]
+    # carros:List[CarroSchema]
     
     
     

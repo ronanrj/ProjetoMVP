@@ -1,5 +1,5 @@
 from flask_openapi3 import OpenAPI, Info, Tag
-from flask import redirect
+from flask import redirect, request
 from urllib.parse import unquote
 from sqlalchemy.exc import IntegrityError
 
@@ -60,6 +60,126 @@ def add_cfc(form: CfcSchema):
         error_msg = "Não foi possível salvar novo item :/"
         #logger.warning(f"Erro ao adicionar cfc '{cfc.nome}', {error_msg}")
         return {"mesage": error_msg}, 400
+
+#get all cfc
+@app.get('/cfc', tags=[cfc_tag],
+         responses={"200": ListaCfcsSchema, "404": ErrorSchema})
+def get_cfcs():
+    """Faz a busca por todos as Auto escolas cadastrados
+
+    Retorna uma representação da lista de todas as cfcs.
+    """
+    #logger.debug(f"Coletando produtos ")
+    # criando conexão com a base
+    session = Session()
+    # fazendo a busca
+    cfcs = session.query(Cfc).all()
+
+    if not cfcs:
+        # se não há produtos cadastrados
+        return {"cfcs": []}, 200
+    else:
+        #logger.debug(f"%d rodutos econtrados" % len(produtos))
+        # retorna a representação de produto
+        print(cfcs)
+        return apresenta_cfcs(cfcs), 200
+
+#getbycod
+@app.get('/cfc/<codigo>', tags=[cfc_tag],
+         responses={"200": CfcViewSchema, "404": ErrorSchema})
+def get_produto(query: CfcBuscaSchema):
+    """Faz a busca por um Produto a partir do id do produto
+
+    Retorna uma representação dos produtos e comentários associados.
+    """
+    cfc_codigo = query.codigo
+    #logger.debug(f"Coletando dados sobre produto #{produto_id}")
+    # criando conexão com a base
+    session = Session()
+    # fazendo a busca
+    cfc = session.query(Cfc).filter(Cfc.codigo == cfc_codigo).first()
+
+    if not cfc:
+        # se o cfc não foi encontrado
+        error_msg = "cfc não encontrado na base :/"
+        #logger.warning(f"Erro ao buscar produto '{cfc_codigo}', {error_msg}")
+        return {"mesage": error_msg}, 404
+    else:
+        #logger.debug(f"CFC econtrado: '{produto.nome}'")
+        # retorna a representação de cfc
+        return apresenta_cfc(cfc), 200
+    
+# delete cfc
+@app.delete('/cfc/<codigo>', tags=[cfc_tag],
+            responses={"200": CfcDelSchema, "404": ErrorSchema})
+def del_cfc(query: CfcBuscaSchema):
+    """Deleta um Produto a partir do nome de produto informado
+
+    Retorna uma mensagem de confirmação da remoção.
+    """
+    cfc_codigo = unquote(unquote(query.codigo))
+    print(cfc_codigo)
+    #logger.debug(f"Deletando dados sobre cfc #{cfc_nome}")
+    # criando conexão com a base
+    session = Session()
+    # fazendo a remoção
+    count = session.query(Cfc).filter(Cfc.codigo == cfc_codigo).delete()
+    session.commit()
+
+    if count:
+        # retorna a representação da mensagem de confirmação
+        #logger.debug(f"Deletado produto #{cfc_nome}")
+        return {"mesage": "Auto escola removida", "codigo": cfc_codigo}
+    else:
+        # se o cfc não foi encontrado
+        error_msg = "Cfc não encontrado na base :/"
+        #logger.warning(f"Erro ao deletar produto #'{cfc_codigo}', {error_msg}")
+        return {"mesage": error_msg}, 404    
+
+#falta a put (alterar)
+# update cfc
+@app.put('/cfc/<id>', tags=[cfc_tag],
+         responses={"200": CfcSchema, "404": ErrorSchema})
+def update_cfc(query:CfcPutSchema,form: CfcSchema ):
+    """Atualiza uma cfc existente na base de dados
+
+    Retorna uma representação atualizada da cfc.
+    """
+    # obtendo o código da cfc a ser atualizada
+    #cfc_id = unquote(unquote(query.id))
+    cfc_id = query.id
+
+    # criando conexão com a base
+    session = Session()
+
+    # buscando a cfc a ser atualizada
+    cfc = session.query(Cfc).filter(Cfc.id == cfc_id).first()
+
+    if not cfc:
+        # se a cfc não foi encontrada
+        error_msg = "Cfc não encontrada na base :/"
+        return {"message": error_msg}, 404
+
+    # atualizando os atributos da cfc com os valores fornecidos
+    cfc.codigo = form.codigo
+    cfc.nome = form.nome
+    cfc.cnpj = form.cnpj
+    cfc.status = form.status
+    cfc.regiao = form.regiao
+
+    try:
+        # efetuando a atualização no banco de dados
+        session.commit()
+        # retornando a representação atualizada da cfc
+        return apresenta_cfc(cfc), 200
+
+    except Exception as e:
+        # caso ocorra algum erro durante a atualização
+        error_msg = "Não foi possível atualizar a cfc :/"
+        return {"message": error_msg}, 400
+
+
+
     
 @app.post('/instrutor', tags=[instrutor_tag],
           responses={"200": InstrutorViewSchema, "409": ErrorSchema, "400": ErrorSchema})

@@ -1,3 +1,4 @@
+import uuid
 from sqlalchemy import Column, String, Integer, DateTime, Boolean
 from sqlalchemy.orm import relationship
 from datetime import datetime
@@ -9,8 +10,8 @@ from model import Base , Instrutor , Carro
 class Cfc(Base):
     __tablename__ = 'cfc'
     
-    id = Column(Integer, unique=True)
-    codigo = Column(String(20),unique=True , primary_key=True)
+    id = Column(Integer, primary_key=True,  unique=True)
+    codigo = Column(String(20),unique=True)
     nome = Column(String(100))
     cnpj = Column(String(20))
     status = Column(Boolean)
@@ -33,7 +34,7 @@ class Cfc(Base):
             status: se a auto escola está ativa
             regiao: regiao onde se encontra a 
             ultima_atualizacao: data de quando o cfc teve a ultima atualização
-        """        
+        """       
         self.codigo =codigo
         self.nome = nome
         self.cnpj = cnpj

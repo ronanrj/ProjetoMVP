@@ -1,3 +1,4 @@
+import uuid
 from sqlalchemy import Column, String, Integer, DateTime, ForeignKey ,Boolean
 from datetime import datetime
 from typing import Union
@@ -8,8 +9,8 @@ class Instrutor(Base):
     __tablename__ = 'instrutor'
     
     
-    id = Column(Integer)
-    cpf = Column(String(20),primary_key=True)
+    id = Column(Integer,primary_key=True, unique=True)
+    cpf = Column(String(20),unique = True)
     nome = Column(String(100))
     aula = Column(String(20))
     status = Column(Boolean)
@@ -29,7 +30,6 @@ class Instrutor(Base):
             status: se está ativo
             ultima_atualizacao: data de quando o instrutor teve a ultima atualização
         """
-        
         self.cpf = cpf
         self.nome = nome        
         self.aula = aula        

@@ -5,7 +5,6 @@ from model.carro import Carro
 
 class CarroSchema(BaseModel):
     """ Define como um novo carro deve ser representado para ser inserido"""
-    id: int = 1 
     renavan: int = 2658568543
     placa: str = "Lag7598"
     marca: str = "Fiat"

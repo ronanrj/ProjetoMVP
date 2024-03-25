@@ -4,8 +4,7 @@ from typing import List
 from model.instrutor import Instrutor
 
 class InstrutorSchema(BaseModel):
-    """ Define como um novo instrutor deve ser representado para ser inserido"""
-    
+    """ Define como um novo instrutor deve ser representado para ser inserido"""    
     cpf: str = "00000000000"
     nome: str = "Auto Escola de Jacarepagua"
     aula: str = "70.982.550/0001-39"

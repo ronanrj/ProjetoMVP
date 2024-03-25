@@ -21,3 +21,7 @@ no sqlAlchemic.
 instalado o pydantic e Pylance , pois ao criar o ambiente de desenvolvimento os mesmos estavam gerando erro.
 
 problemas ao importar os schemas , verificado que a ordem dos modulos é importante para não dar redundância circular
+
+problemas com uuid no sqllite , modifica chave para id 
+
+criado put com query string ( dificuldades) funcimou , criado tb outro schema para o put

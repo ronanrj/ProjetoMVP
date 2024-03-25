@@ -7,6 +7,7 @@ from schemas import CarroSchema, InstrutorSchema
 #
 class CfcSchema(BaseModel):
     """ Define como um novo produto a ser inserido deve ser representado"""
+    #id: int = 50
     codigo: str = "ac1215"
     nome: str = "Auto Escola de Jacarepagua"
     cnpj: str = "70.982.550/0001-39"
@@ -28,6 +29,7 @@ def apresenta_cfcs(cfcs:List[Cfc]):
     result = []
     for cfc in cfcs:
         result.append({
+            "id": cfc.id,
             "codigo": cfc.codigo,
             "nome": cfc.nome,
             "cnpj": cfc.cnpj,
@@ -73,3 +75,11 @@ def apresenta_cfc(cfc: Cfc):
         "instrutores": cfc.instrutores,
         "carros":cfc.carros        
     }
+
+class CfcPutSchema(BaseModel):
+    """ Define como um novo produto a ser inserido deve ser representado"""
+    id: int = 50
+    # nome: str = "Auto Escola de Jacarepagua"
+    # cnpj: str = "70.982.550/0001-39"
+    # status: bool = True
+    # regiao:str = "Jacarepagua"

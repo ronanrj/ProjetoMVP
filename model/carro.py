@@ -7,8 +7,8 @@ from model import Base
 class Carro(Base):
     __tablename__ = 'carro'  
     
-    id = Column(Integer)
-    renavan = Column(Integer,primary_key=True)
+    id = Column(Integer ,primary_key=True,unique=True)
+    renavan = Column(Integer,unique = True)
     placa = Column(String(10))
     marca = Column(String(20))
     modelo = Column(String(20))

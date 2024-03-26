@@ -74,3 +74,12 @@ class InstrutorListagemSchema(BaseModel):
     aula: str = "94127426063"
     status: bool = True
     cfc: str = "ab1234"    
+    
+class InstrutorPutSchema(BaseModel):
+    """ Define como um novo instrutor deve ser representado para ser inserido"""   
+    id : int = 1 
+    #cpf: str = "00000000000"
+    # nome: str = "Joao"
+    # aula: str = "94127426063"
+    # status: bool = True
+    # cfc: str = "ab1234"    

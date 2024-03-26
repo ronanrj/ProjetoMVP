@@ -73,3 +73,13 @@ def apresenta_carro(carro: Carro):
             "ultima_atualizacao":carro.ultima_atualizacao,
             "cfc": carro.cfc
         }
+    
+class CarroListagemSchema(BaseModel):
+    """ Define como um novo carro deve ser representado para ser inserido"""
+    renavan: int = 2658568543
+    placa: str = "Lag7598"
+    marca: str = "Fiat"
+    modelo: str = "147"
+    status: bool = True    
+    cfc: str = "ab1222" 
+    

@@ -18,7 +18,7 @@ class Carro(Base):
     cfc = Column(String , ForeignKey("cfc.codigo") , nullable=False)
     
     #construtor
-    def __init__(self , renavan:int , placa:str, marca:str, modelo:str , status:Boolean , ultima_atualizacao:Union[DateTime,None] = None):
+    def __init__(self , renavan:int , placa:str, marca:str, modelo:str , status:Boolean ,cfc:str ,ultima_atualizacao:Union[DateTime,None] = None):
         """
         Cria o cadastro de um novo carro da cfc
 
@@ -29,6 +29,7 @@ class Carro(Base):
             modelo: modelo do carro
             status: se está ativo
             ultima_atualizacao: data de quando o instrutor teve a ultima atualização
+            cfc : qual auto escola está associado
         """
         
         self.renavan = renavan
@@ -38,3 +39,4 @@ class Carro(Base):
         self.status = status        
         if ultima_atualizacao:
           self.ultima_atualizacao = ultima_atualizacao
+        self.cfc = cfc          

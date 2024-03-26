@@ -14,16 +14,10 @@ app.config['SWAGGER_BASEPATH'] = '/swagger'
 CORS(app)
 
 # definindo tags
-home_tag = Tag(name="Documentação", description="Seleção de documentação: Swagger, Redoc ou RapiDoc")
-cfc_tag = Tag(name="Cfc", description="Adição, visualização e remoção de uma auto escola à base")
-instrutor_tag = Tag(name="Instrutor", description="Adição, visualização e remoção de instrutor à base")
+cfc_tag = Tag(name="Cfc - auto escola", description="Adição, visualização e remoção de uma auto escola à base")
 carro_tag = Tag(name="Carro", description="Adição, visualização e remoção de carro à base")
-
-@app.get('/', tags=[home_tag])
-def home():
-    """Redireciona para /openapi, tela que permite a escolha do estilo de documentação.
-    """
-    return redirect('/openapi')
+home_tag = Tag(name="Documentação", description="Seleção de documentação: Swagger, Redoc ou RapiDoc")
+instrutor_tag = Tag(name="Instrutor", description="Adição, visualização e remoção de instrutor à base")
 
 @app.post('/cfc', tags=[cfc_tag],
           responses={"200": CfcViewSchema, "409": ErrorSchema, "400": ErrorSchema})
@@ -178,7 +172,116 @@ def update_cfc(query:CfcPutSchema,form: CfcSchema ):
         error_msg = "Não foi possível atualizar a cfc :/"
         return {"message": error_msg}, 400
 
+@app.post('/carro', tags=[carro_tag],
+          responses={"200": CarroViewSchema, "409": ErrorSchema, "400": ErrorSchema})
+def add_carro(form: CarroSchema):
+    """Adiciona um carro à base de dados
+    Retorna uma representação do carro cadastrado.
+    """
+    carro = Carro(
+        renavan=form.renavan,
+        placa=form.placa,
+        marca=form.marca,
+        modelo=form.modelo,
+        status = form.status,
+        cfc = form.cfc)        
+    #logger.debug(f"Adicionando cfc de nome: '{cfc.nome}'")
+    try:
+        # criando conexão com a base
+        session = Session()
+        # adicionando produto
+        session.add(carro)
+        # efetivando o camando de adição de novo item na tabela
+        session.commit()
+        #logger.debug(f"Adicionado cfc de nome: '{cfc.nome}'")
+        return apresenta_carro(carro), 200
 
+    except IntegrityError as e:
+        # como a duplicidade do nome é a provável razão do IntegrityError
+        error_msg = "Carro com o mesmo renavan já salvo na base :/"
+        #logger.warning(f"Erro ao adicionar cfc '{cfc.nome}', {error_msg}")
+        return {"mesage": error_msg}, 409
+
+    except Exception as e:
+        # caso um erro fora do previsto
+        error_msg = "Não foi possível salvar novo item :/"
+        #logger.warning(f"Erro ao adicionar cfc '{cfc.nome}', {error_msg}")
+        return {"mesage": error_msg}, 400
+    
+@app.get('/carro', tags=[carro_tag],
+         responses={"200": CarroListagemSchema, "404": ErrorSchema})
+def get_carros():
+    """Faz a busca por todas os carros cadastrados
+    Retorna uma representação da lista de todas os carros.
+    """
+    #logger.debug(f"Coletando produtos ")
+    # criando conexão com a base
+    session = Session()
+    # fazendo a busca
+    carros = session.query(Carro).all()
+
+    if not carros:
+        # se não há produtos cadastrados
+        return {"carros": []}, 200
+    else:
+        #logger.debug(f"%d rodutos econtrados" % len(produtos))
+        # retorna a representação de produto
+        print(carros)
+        return apresenta_carros(carros), 200 
+    
+@app.get('/carro/<renavan>', tags=[carro_tag],
+         responses={"200": CarroViewSchema, "404": ErrorSchema})
+def get_carro(query: CarroBuscaSchema):
+    """Faz a busca por um carro a partir do renavan
+    Retorna uma representação dos carros
+    """
+    carro_renavan = query.renavan
+    #logger.debug(f"Coletando dados sobre produto #{produto_id}")
+    # criando conexão com a base
+    session = Session()
+    # fazendo a busca
+    carro = session.query(Carro).filter(Carro.renavan == carro_renavan).first()
+
+    if not carro:
+        # se o cfc não foi encontrado
+        error_msg = "Carro não encontrado na base :/"
+        #logger.warning(f"Erro ao buscar produto '{cfc_codigo}', {error_msg}")
+        return {"mesage": error_msg}, 404
+    else:
+        #logger.debug(f"CFC econtrado: '{produto.nome}'")
+        # retorna a representação de cfc
+        return apresenta_carro(carro), 200
+
+@app.delete('/carro/<renavan>', tags=[carro_tag],
+            responses={"200": CarroDelSchema, "404": ErrorSchema})
+def del_carro(query: CarroBuscaSchema):
+    """Deleta um carro a partir do renavan informado
+    Retorna uma mensagem de confirmação da remoção.
+    """
+    carro_renavan = unquote(unquote(query.renavan))
+    print(carro_renavan)
+    #logger.debug(f"Deletando dados sobre cfc #{cfc_nome}")
+    # criando conexão com a base
+    session = Session()
+    # fazendo a remoção
+    count = session.query(Carro).filter(Carro.renavan == carro_renavan).delete()
+    session.commit()
+
+    if count:
+        # retorna a representação da mensagem de confirmação
+        #logger.debug(f"Deletado produto #{cfc_nome}")
+        return {"mesage": "Carro removido", "renavan": carro_renavan}
+    else:
+        # se o cfc não foi encontrado
+        error_msg = "Carro não encontrado na base :/"
+        #logger.warning(f"Erro ao deletar produto #'{cfc_codigo}', {error_msg}")
+        return {"mesage": error_msg}, 404        
+
+@app.get('/', tags=[home_tag])
+def home():
+    """Redireciona para /openapi, tela que permite a escolha do estilo de documentação.
+    """
+    return redirect('/openapi')
 
     
 @app.post('/instrutor', tags=[instrutor_tag],
@@ -330,109 +433,3 @@ def update_instrutor(query:InstrutorPutSchema,form: InstrutorSchema ):
         # caso ocorra algum erro durante a atualização
         error_msg = "Não foi possível atualizar o instrutor :/"
         return {"message": error_msg}, 400
-
-
-@app.post('/carro', tags=[carro_tag],
-          responses={"200": CarroViewSchema, "409": ErrorSchema, "400": ErrorSchema})
-def add_carro(form: CarroSchema):
-    """Adiciona um carro à base de dados
-    Retorna uma representação do carro cadastrado.
-    """
-    carro = Carro(
-        renavan=form.renavan,
-        placa=form.placa,
-        marca=form.marca,
-        modelo=form.modelo,
-        status = form.status,
-        cfc = form.cfc)        
-    #logger.debug(f"Adicionando cfc de nome: '{cfc.nome}'")
-    try:
-        # criando conexão com a base
-        session = Session()
-        # adicionando produto
-        session.add(carro)
-        # efetivando o camando de adição de novo item na tabela
-        session.commit()
-        #logger.debug(f"Adicionado cfc de nome: '{cfc.nome}'")
-        return apresenta_carro(carro), 200
-
-    except IntegrityError as e:
-        # como a duplicidade do nome é a provável razão do IntegrityError
-        error_msg = "Carro com o mesmo renavan já salvo na base :/"
-        #logger.warning(f"Erro ao adicionar cfc '{cfc.nome}', {error_msg}")
-        return {"mesage": error_msg}, 409
-
-    except Exception as e:
-        # caso um erro fora do previsto
-        error_msg = "Não foi possível salvar novo item :/"
-        #logger.warning(f"Erro ao adicionar cfc '{cfc.nome}', {error_msg}")
-        return {"mesage": error_msg}, 400
-    
-@app.get('/carro', tags=[carro_tag],
-         responses={"200": CarroListagemSchema, "404": ErrorSchema})
-def get_carros():
-    """Faz a busca por todas os carros cadastrados
-    Retorna uma representação da lista de todas os carros.
-    """
-    #logger.debug(f"Coletando produtos ")
-    # criando conexão com a base
-    session = Session()
-    # fazendo a busca
-    carros = session.query(Carro).all()
-
-    if not carros:
-        # se não há produtos cadastrados
-        return {"carros": []}, 200
-    else:
-        #logger.debug(f"%d rodutos econtrados" % len(produtos))
-        # retorna a representação de produto
-        print(carros)
-        return apresenta_carros(carros), 200 
-    
-@app.get('/carro/<renavan>', tags=[carro_tag],
-         responses={"200": CarroViewSchema, "404": ErrorSchema})
-def get_carro(query: CarroBuscaSchema):
-    """Faz a busca por um carro a partir do renavan
-    Retorna uma representação dos carros
-    """
-    carro_renavan = query.renavan
-    #logger.debug(f"Coletando dados sobre produto #{produto_id}")
-    # criando conexão com a base
-    session = Session()
-    # fazendo a busca
-    carro = session.query(Carro).filter(Carro.renavan == carro_renavan).first()
-
-    if not carro:
-        # se o cfc não foi encontrado
-        error_msg = "Carro não encontrado na base :/"
-        #logger.warning(f"Erro ao buscar produto '{cfc_codigo}', {error_msg}")
-        return {"mesage": error_msg}, 404
-    else:
-        #logger.debug(f"CFC econtrado: '{produto.nome}'")
-        # retorna a representação de cfc
-        return apresenta_carro(carro), 200
-
-@app.delete('/carro/<renavan>', tags=[carro_tag],
-            responses={"200": CarroDelSchema, "404": ErrorSchema})
-def del_carro(query: CarroBuscaSchema):
-    """Deleta um carro a partir do renavan informado
-    Retorna uma mensagem de confirmação da remoção.
-    """
-    carro_renavan = unquote(unquote(query.renavan))
-    print(carro_renavan)
-    #logger.debug(f"Deletando dados sobre cfc #{cfc_nome}")
-    # criando conexão com a base
-    session = Session()
-    # fazendo a remoção
-    count = session.query(Carro).filter(Carro.renavan == carro_renavan).delete()
-    session.commit()
-
-    if count:
-        # retorna a representação da mensagem de confirmação
-        #logger.debug(f"Deletado produto #{cfc_nome}")
-        return {"mesage": "Carro removido", "renavan": carro_renavan}
-    else:
-        # se o cfc não foi encontrado
-        error_msg = "Carro não encontrado na base :/"
-        #logger.warning(f"Erro ao deletar produto #'{cfc_codigo}', {error_msg}")
-        return {"mesage": error_msg}, 404    

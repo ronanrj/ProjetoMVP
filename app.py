@@ -15,9 +15,9 @@ CORS(app)
 
 # definindo tags
 home_tag = Tag(name="Documentação", description="Seleção de documentação: Swagger, Redoc ou RapiDoc")
-cfc_tag = Tag(name="Cfc", description="Adição, visualização e remoção de cfc à base")
+cfc_tag = Tag(name="Cfc", description="Adição, visualização e remoção de uma auto escola à base")
 instrutor_tag = Tag(name="Instrutor", description="Adição, visualização e remoção de instrutor à base")
-# carro_tag = Tag(name="Carro", description="Adição, visualização e remoção de carro à base")
+carro_tag = Tag(name="Carro", description="Adição, visualização e remoção de carro à base")
 
 @app.get('/', tags=[home_tag])
 def home():
@@ -28,9 +28,9 @@ def home():
 @app.post('/cfc', tags=[cfc_tag],
           responses={"200": CfcViewSchema, "409": ErrorSchema, "400": ErrorSchema})
 def add_cfc(form: CfcSchema):
-    """Adiciona uma nova cfc à base de dados
+    """Adiciona uma nova auto escola à base de dados
 
-    Retorna uma representação dos produtos e comentários associados.
+    Retorna uma representação das auto escolas e instrutor e carros associados.
     """
     cfc = Cfc(
         codigo=form.codigo,
@@ -51,7 +51,7 @@ def add_cfc(form: CfcSchema):
 
     except IntegrityError as e:
         # como a duplicidade do nome é a provável razão do IntegrityError
-        error_msg = "cfc de mesmo nome já salvo na base :/"
+        error_msg = "auto escola de mesmo nome já salvo na base :/"
         #logger.warning(f"Erro ao adicionar cfc '{cfc.nome}', {error_msg}")
         return {"mesage": error_msg}, 409
 
@@ -63,11 +63,11 @@ def add_cfc(form: CfcSchema):
 
 #get all cfc
 @app.get('/cfc', tags=[cfc_tag],
-         responses={"200": ListaCfcsSchema, "404": ErrorSchema})
+         responses={"200": CfcListagemSchema, "404": ErrorSchema})
 def get_cfcs():
-    """Faz a busca por todos as Auto escolas cadastrados
+    """Faz a busca por todas as auto escolas cadastrados
 
-    Retorna uma representação da lista de todas as cfcs.
+    Retorna uma representação da lista de todas as auto escolas.
     """
     #logger.debug(f"Coletando produtos ")
     # criando conexão com a base
@@ -87,10 +87,10 @@ def get_cfcs():
 #getbycod
 @app.get('/cfc/<codigo>', tags=[cfc_tag],
          responses={"200": CfcViewSchema, "404": ErrorSchema})
-def get_produto(query: CfcBuscaSchema):
-    """Faz a busca por um Produto a partir do id do produto
+def get_cfc(query: CfcBuscaSchema):
+    """Faz a busca por uma auto escola a partir do codigo da auto escola
 
-    Retorna uma representação dos produtos e comentários associados.
+    Retorna uma representação das auto escolas e carros e instrutores.
     """
     cfc_codigo = query.codigo
     #logger.debug(f"Coletando dados sobre produto #{produto_id}")
@@ -101,7 +101,7 @@ def get_produto(query: CfcBuscaSchema):
 
     if not cfc:
         # se o cfc não foi encontrado
-        error_msg = "cfc não encontrado na base :/"
+        error_msg = "auto escola não encontrado na base :/"
         #logger.warning(f"Erro ao buscar produto '{cfc_codigo}', {error_msg}")
         return {"mesage": error_msg}, 404
     else:
@@ -113,7 +113,7 @@ def get_produto(query: CfcBuscaSchema):
 @app.delete('/cfc/<codigo>', tags=[cfc_tag],
             responses={"200": CfcDelSchema, "404": ErrorSchema})
 def del_cfc(query: CfcBuscaSchema):
-    """Deleta um Produto a partir do nome de produto informado
+    """Deleta uma auto escola a partir do codigo informado
 
     Retorna uma mensagem de confirmação da remoção.
     """
@@ -141,9 +141,9 @@ def del_cfc(query: CfcBuscaSchema):
 @app.put('/cfc/<id>', tags=[cfc_tag],
          responses={"200": CfcSchema, "404": ErrorSchema})
 def update_cfc(query:CfcPutSchema,form: CfcSchema ):
-    """Atualiza uma cfc existente na base de dados
+    """Atualiza uma auto escola existente na base de dados
 
-    Retorna uma representação atualizada da cfc.
+    Retorna uma representação atualizada da auto escola.
     """
     # obtendo o código da cfc a ser atualizada
     #cfc_id = unquote(unquote(query.id))
@@ -186,7 +186,7 @@ def update_cfc(query:CfcPutSchema,form: CfcSchema ):
 def add_intrutor(form: InstrutorSchema):
     """Adiciona uma nova cfc à base de dados
 
-    Retorna uma representação dos produtos e comentários associados.
+    Retorna uma representação dos instrutores .
     """
     cfc = Cfc(
         codigo=form.codigo,

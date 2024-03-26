@@ -48,8 +48,8 @@ class CfcViewSchema(BaseModel):
     status = True
     regiao = "Bairro"
     # ultima_atualizacao = datetime.now()
-    # instutores: List[InstrutorSchema]
-    # carros:List[CarroSchema]
+    instutores: List[InstrutorSchema]
+    carros:List[CarroSchema]
     
     
     
@@ -83,3 +83,12 @@ class CfcPutSchema(BaseModel):
     # cnpj: str = "70.982.550/0001-39"
     # status: bool = True
     # regiao:str = "Jacarepagua"
+    
+class CfcListagemSchema(BaseModel):
+ """ Define como um novo produto a ser inserido deve ser representado"""
+ id: int = 50
+ codigo: str = "ac1215"
+ nome: str = "Auto Escola de Jacarepagua"
+ cnpj: str = "70.982.550/0001-39"
+ status: bool = True
+ regiao:str = "Jacarepagua"

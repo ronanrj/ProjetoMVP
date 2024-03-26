@@ -1,4 +1,3 @@
-import uuid
 from sqlalchemy import Column, String, Integer, DateTime, ForeignKey ,Boolean
 from datetime import datetime
 from typing import Union
@@ -19,7 +18,7 @@ class Instrutor(Base):
     cfc = Column(String , ForeignKey("cfc.codigo") , nullable=False)
     
     #construtor
-    def __init__(self , cpf:str , nome:str, aula:str , status:Boolean , ultima_atualizacao:Union[DateTime,None] = None):
+    def __init__(self , cpf:str , nome:str, aula:str , status:Boolean ,cfc:str ,ultima_atualizacao:Union[DateTime,None] = None):
         """
         Cria novo Instrutor
 
@@ -29,6 +28,7 @@ class Instrutor(Base):
             aula: aula que o instrutor leciona , para qual tipo de carteira
             status: se está ativo
             ultima_atualizacao: data de quando o instrutor teve a ultima atualização
+            cfc: cfc que o instrutor está vinculado
         """
         self.cpf = cpf
         self.nome = nome        
@@ -36,4 +36,5 @@ class Instrutor(Base):
         self.status = status        
         if ultima_atualizacao:
           self.ultima_atualizacao = ultima_atualizacao
+        self.cfc = cfc
          

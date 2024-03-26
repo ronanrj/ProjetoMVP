@@ -184,30 +184,30 @@ def update_cfc(query:CfcPutSchema,form: CfcSchema ):
 @app.post('/instrutor', tags=[instrutor_tag],
           responses={"200": InstrutorViewSchema, "409": ErrorSchema, "400": ErrorSchema})
 def add_intrutor(form: InstrutorSchema):
-    """Adiciona uma nova cfc à base de dados
-
+    """Adiciona um novo instrutor à base de dados
     Retorna uma representação dos instrutores .
     """
-    cfc = Cfc(
-        codigo=form.codigo,
-        nome=form.nome,
-        cnpj=form.cnpj,
+    instrutor = Instrutor(
+        cpf = form.cpf,
+        nome = form.nome,
+        aula = form.aula,
         status=form.status,
-        regiao = form.regiao)        
+        cfc = form.cfc)          
+
     #logger.debug(f"Adicionando cfc de nome: '{cfc.nome}'")
     try:
         # criando conexão com a base
         session = Session()
         # adicionando produto
-        session.add(cfc)
+        session.add(instrutor)
         # efetivando o camando de adição de novo item na tabela
         session.commit()
         #logger.debug(f"Adicionado cfc de nome: '{cfc.nome}'")
-        return apresenta_cfc(cfc), 200
+        return apresenta_instrutor(instrutor), 200
 
     except IntegrityError as e:
         # como a duplicidade do nome é a provável razão do IntegrityError
-        error_msg = "cfc de mesmo nome já salvo na base :/"
+        error_msg = "instrutor de mesmo cpf já salvo na base :/"
         #logger.warning(f"Erro ao adicionar cfc '{cfc.nome}', {error_msg}")
         return {"mesage": error_msg}, 409
 
@@ -216,3 +216,51 @@ def add_intrutor(form: InstrutorSchema):
         error_msg = "Não foi possível salvar novo item :/"
         #logger.warning(f"Erro ao adicionar cfc '{cfc.nome}', {error_msg}")
         return {"mesage": error_msg}, 400    
+    
+#get all cfc
+@app.get('/instrutor', tags=[instrutor_tag],
+         responses={"200": InstrutorListagemSchema, "404": ErrorSchema})
+def get_instrutores():
+    """Faz a busca por todos os instrutores cadastrados
+
+    Retorna uma representação de lista de todos os instrutores das auto escolas.
+    """
+    #logger.debug(f"Coletando produtos ")
+    # criando conexão com a base
+    session = Session()
+    # fazendo a busca
+    instrutores = session.query(Instrutor).all()
+
+    if not instrutores:
+        # se não há produtos cadastrados
+        return {"instrutores": []}, 200
+    else:
+        #logger.debug(f"%d rodutos econtrados" % len(produtos))
+        # retorna a representação de produto
+        print(instrutores)
+        return apresenta_instrutores(instrutores), 200
+
+@app.get('/instrutor/<cpf>', tags=[instrutor_tag],
+         responses={"200": InstrutorViewSchema, "404": ErrorSchema})
+def get_instrutor(query: InstrutorBuscaSchema):
+    """Faz a busca por um instrutor a partir do cpf
+
+    Retorna uma representação de  instrutores
+    """
+    instrutor_cpf = query.cpf
+    #logger.debug(f"Coletando dados sobre produto #{produto_id}")
+    # criando conexão com a base
+    session = Session()
+    # fazendo a busca
+    instrutor = session.query(Instrutor).filter(Instrutor.cpf == instrutor_cpf).first()
+
+    if not instrutor:
+        # se o cfc não foi encontrado
+        error_msg = "instrutor não encontrado na base :/"
+        #logger.warning(f"Erro ao buscar produto '{cfc_codigo}', {error_msg}")
+        return {"mesage": error_msg}, 404
+    else:
+        #logger.debug(f"CFC econtrado: '{produto.nome}'")
+        # retorna a representação de cfc
+        return apresenta_instrutor(instrutor), 200
+    

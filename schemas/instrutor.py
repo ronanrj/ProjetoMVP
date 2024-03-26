@@ -6,8 +6,8 @@ from model.instrutor import Instrutor
 class InstrutorSchema(BaseModel):
     """ Define como um novo instrutor deve ser representado para ser inserido"""    
     cpf: str = "00000000000"
-    nome: str = "Auto Escola de Jacarepagua"
-    aula: str = "70.982.550/0001-39"
+    nome: str = "Joao"
+    aula: str = "94127426063"
     status: bool = True
     cfc: str = "ab1234"
     
@@ -59,8 +59,18 @@ def apresenta_instrutor(instrutor: Instrutor):
     return{
         "id" : instrutor.id,
         "cpf": instrutor.cpf,
+        "nome": instrutor.nome,
         "aula": instrutor.aula,
         "status": instrutor.status,
         "ultima_atualizacao": instrutor.ultima_atualizacao,
         "cfc": instrutor.cfc 
         }
+
+class InstrutorListagemSchema(BaseModel):
+    """ Define como um novo instrutor deve ser representado para ser inserido"""  
+    id : int = 1 
+    cpf: str = "00000000000"
+    nome: str = "Joao"
+    aula: str = "94127426063"
+    status: bool = True
+    cfc: str = "ab1234"    

@@ -29,3 +29,5 @@ criado put com query string ( dificuldades) funcimou , criado tb outro schema pa
 Criado post e gtes dos instrutores 
 
 Faltando o put dos carros
+
+problemas com as listas no get por codigo , id .

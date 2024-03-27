@@ -3,7 +3,7 @@ from pydantic import BaseModel
 from typing import List
 from model.cfc import Cfc
 
-from schemas import CarroSchema, InstrutorSchema
+from schemas import CarroSchema, CarroViewSchema, InstrutorSchema , InstrutorListagemSchema
 #
 class CfcSchema(BaseModel):
     """ Define como um novo produto a ser inserido deve ser representado"""
@@ -48,8 +48,8 @@ class CfcViewSchema(BaseModel):
     status = True
     regiao = "Bairro"
     # ultima_atualizacao = datetime.now()
-    instutores: List[InstrutorSchema]
-    carros:List[CarroSchema]
+    instutores: List[InstrutorListagemSchema]
+    #carros:List[CarroViewSchema]
     
     
     
@@ -72,8 +72,10 @@ def apresenta_cfc(cfc: Cfc):
         "status":cfc.status,
         "regiao":cfc.regiao,
         "ultima_atualizacao": cfc.ultima_atualizacao,
-        "instrutores": cfc.instrutores,
-        "carros":cfc.carros        
+        "instrutores": [{"id": i.id , "cpf":i.cpf , "nome":i.nome , "aula": i.aula
+                         , "status":i.status , "ultima_atualizacao": i.ultima_atualizacao} for i in cfc.instrutores],
+        "carros":[{"id":c.id , "renavan":c.renavan , "placa":c.placa , "marca":c.marca , "modelo":c.modelo,
+                   "status":c.status , "ultima_atualizacao":c.ultima_atualizacao} for c in cfc.carros]        
     }
 
 class CfcPutSchema(BaseModel):

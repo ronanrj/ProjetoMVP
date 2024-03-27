@@ -49,7 +49,7 @@ class CfcViewSchema(BaseModel):
     regiao = "Bairro"
     # ultima_atualizacao = datetime.now()
     instutores: List[InstrutorListagemSchema]
-    #carros:List[CarroViewSchema]
+    carros:List[CarroViewSchema]
     
     
     
@@ -81,10 +81,6 @@ def apresenta_cfc(cfc: Cfc):
 class CfcPutSchema(BaseModel):
     """ Define como um novo produto a ser inserido deve ser representado"""
     id: int = 50
-    # nome: str = "Auto Escola de Jacarepagua"
-    # cnpj: str = "70.982.550/0001-39"
-    # status: bool = True
-    # regiao:str = "Jacarepagua"
     
 class CfcListagemSchema(BaseModel):
  """ Define como um novo produto a ser inserido deve ser representado"""

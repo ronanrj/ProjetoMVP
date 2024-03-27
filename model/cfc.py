@@ -1,4 +1,3 @@
-import uuid
 from sqlalchemy import Column, String, Integer, DateTime, Boolean
 from sqlalchemy.orm import relationship
 from datetime import datetime
@@ -16,9 +15,7 @@ class Cfc(Base):
     cnpj = Column(String(20))
     status = Column(Boolean)
     regiao = Column(String(50))
-    ultima_atualizacao = Column(DateTime,default=datetime.now())
-    
-    #definição d erelacionamento faltando
+    ultima_atualizacao = Column(DateTime,default=datetime.now())   
     instrutores = relationship("Instrutor")
     carros = relationship("Carro")
     

@@ -57,7 +57,7 @@ def add_cfc(form: CfcSchema):
 
 #get all cfc
 @app.get('/cfc', tags=[cfc_tag],
-         responses={"200": CfcListagemSchema, "404": ErrorSchema})
+         responses={"200": ListaCfcsSchema, "404": ErrorSchema})
 def get_cfcs():
     """Faz a busca por todas as auto escolas cadastrados
 
@@ -189,15 +189,13 @@ def add_carro(form: CarroSchema):
     try:
         # criando conexão com a base
         session = Session()
-        # adicionando produto
         session.add(carro)
-        # efetivando o camando de adição de novo item na tabela
         session.commit()
         #logger.debug(f"Adicionado cfc de nome: '{cfc.nome}'")
         return apresenta_carro(carro), 200
 
     except IntegrityError as e:
-        # como a duplicidade do nome é a provável razão do IntegrityError
+        # como a duplicidade do renavan é a provável razão do IntegrityError
         error_msg = "Carro com o mesmo renavan já salvo na base :/"
         #logger.warning(f"Erro ao adicionar cfc '{cfc.nome}', {error_msg}")
         return {"mesage": error_msg}, 409
@@ -209,7 +207,7 @@ def add_carro(form: CarroSchema):
         return {"mesage": error_msg}, 400
     
 @app.get('/carro', tags=[carro_tag],
-         responses={"200": CarroListagemSchema, "404": ErrorSchema})
+         responses={"200": ListaCarrosSchema, "404": ErrorSchema})
 def get_carros():
     """Faz a busca por todas os carros cadastrados
     Retorna uma representação da lista de todas os carros.
@@ -322,7 +320,7 @@ def add_intrutor(form: InstrutorSchema):
     
 #get all cfc
 @app.get('/instrutor', tags=[instrutor_tag],
-         responses={"200": InstrutorListagemSchema, "404": ErrorSchema})
+         responses={"200": ListaInstrutoresSchema, "404": ErrorSchema})
 def get_instrutores():
     """Faz a busca por todos os instrutores cadastrados
 

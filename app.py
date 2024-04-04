@@ -256,7 +256,7 @@ def del_carro(query: CarroBuscaSchema):
     """Deleta um carro a partir do renavan informado
     Retorna uma mensagem de confirmação da remoção.
     """
-    carro_renavan = unquote(unquote(query.renavan))
+    carro_renavan = unquote(unquote(str(query.renavan)))
     print(carro_renavan)
     #logger.debug(f"Deletando dados sobre cfc #{cfc_nome}")
     # criando conexão com a base

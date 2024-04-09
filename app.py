@@ -227,28 +227,28 @@ def get_carros():
         print(carros)
         return apresenta_carros(carros), 200 
     
-@app.get('/carro/<renavan>', tags=[carro_tag],
-         responses={"200": CarroViewSchema, "404": ErrorSchema})
-def get_carro(query: CarroBuscaSchema):
-    """Faz a busca por um carro a partir do renavan
-    Retorna uma representação dos carros
-    """
-    carro_renavan = query.renavan
-    #logger.debug(f"Coletando dados sobre produto #{produto_id}")
-    # criando conexão com a base
-    session = Session()
-    # fazendo a busca
-    carro = session.query(Carro).filter(Carro.renavan == carro_renavan).first()
+# @app.get('/carro/<renavan>', tags=[carro_tag],
+#          responses={"200": CarroViewSchema, "404": ErrorSchema})
+# def get_carro(query: CarroBuscaSchema):
+#     """Faz a busca por um carro a partir do renavan
+#     Retorna uma representação dos carros
+#     """
+#     carro_renavan = query.renavan
+#     #logger.debug(f"Coletando dados sobre produto #{produto_id}")
+#     # criando conexão com a base
+#     session = Session()
+#     # fazendo a busca
+#     carro = session.query(Carro).filter(Carro.renavan == carro_renavan).first()
 
-    if not carro:
-        # se o cfc não foi encontrado
-        error_msg = "Carro não encontrado na base :/"
-        #logger.warning(f"Erro ao buscar produto '{cfc_codigo}', {error_msg}")
-        return {"mesage": error_msg}, 404
-    else:
-        #logger.debug(f"CFC econtrado: '{produto.nome}'")
-        # retorna a representação de cfc
-        return apresenta_carro(carro), 200
+#     if not carro:
+#         # se o cfc não foi encontrado
+#         error_msg = "Carro não encontrado na base :/"
+#         #logger.warning(f"Erro ao buscar produto '{cfc_codigo}', {error_msg}")
+#         return {"mesage": error_msg}, 404
+#     else:
+#         #logger.debug(f"CFC econtrado: '{produto.nome}'")
+#         # retorna a representação de cfc
+#         return apresenta_carro(carro), 200
 
 @app.delete('/carro/<renavan>', tags=[carro_tag],
             responses={"200": CarroDelSchema, "404": ErrorSchema})
@@ -341,29 +341,29 @@ def get_instrutores():
         print(instrutores)
         return apresenta_instrutores(instrutores), 200
 
-@app.get('/instrutor/<cpf>', tags=[instrutor_tag],
-         responses={"200": InstrutorViewSchema, "404": ErrorSchema})
-def get_instrutor(query: InstrutorBuscaSchema):
-    """Faz a busca por um instrutor a partir do cpf
+# @app.get('/instrutor/<cpf>', tags=[instrutor_tag],
+#          responses={"200": InstrutorViewSchema, "404": ErrorSchema})
+# def get_instrutor(query: InstrutorBuscaSchema):
+#     """Faz a busca por um instrutor a partir do cpf
 
-    Retorna uma representação de  instrutores
-    """
-    instrutor_cpf = query.cpf
-    #logger.debug(f"Coletando dados sobre produto #{produto_id}")
-    # criando conexão com a base
-    session = Session()
-    # fazendo a busca
-    instrutor = session.query(Instrutor).filter(Instrutor.cpf == instrutor_cpf).first()
+#     Retorna uma representação de  instrutores
+#     """
+#     instrutor_cpf = query.cpf
+#     #logger.debug(f"Coletando dados sobre produto #{produto_id}")
+#     # criando conexão com a base
+#     session = Session()
+#     # fazendo a busca
+#     instrutor = session.query(Instrutor).filter(Instrutor.cpf == instrutor_cpf).first()
 
-    if not instrutor:
-        # se o cfc não foi encontrado
-        error_msg = "instrutor não encontrado na base :/"
-        #logger.warning(f"Erro ao buscar produto '{cfc_codigo}', {error_msg}")
-        return {"mesage": error_msg}, 404
-    else:
-        #logger.debug(f"CFC econtrado: '{produto.nome}'")
-        # retorna a representação de cfc
-        return apresenta_instrutor(instrutor), 200
+#     if not instrutor:
+#         # se o cfc não foi encontrado
+#         error_msg = "instrutor não encontrado na base :/"
+#         #logger.warning(f"Erro ao buscar produto '{cfc_codigo}', {error_msg}")
+#         return {"mesage": error_msg}, 404
+#     else:
+#         #logger.debug(f"CFC econtrado: '{produto.nome}'")
+#         # retorna a representação de cfc
+#         return apresenta_instrutor(instrutor), 200
     
     
 @app.delete('/instrutor/<cpf>', tags=[instrutor_tag],

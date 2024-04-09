@@ -130,47 +130,47 @@ def del_cfc(query: CfcBuscaSchema):
         #logger.warning(f"Erro ao deletar produto #'{cfc_codigo}', {error_msg}")
         return {"mesage": error_msg}, 404    
 
-#falta a put (alterar)
-# update cfc
-@app.put('/cfc/<id>', tags=[cfc_tag],
-         responses={"200": CfcSchema, "404": ErrorSchema})
-def update_cfc(query:CfcPutSchema,form: CfcSchema ):
-    """Atualiza uma auto escola existente na base de dados
+# #falta a put (alterar)
+# # update cfc
+# @app.put('/cfc/<id>', tags=[cfc_tag],
+#          responses={"200": CfcSchema, "404": ErrorSchema})
+# def update_cfc(query:CfcPutSchema,form: CfcSchema ):
+#     """Atualiza uma auto escola existente na base de dados
 
-    Retorna uma representação atualizada da auto escola.
-    """
-    # obtendo o código da cfc a ser atualizada
-    #cfc_id = unquote(unquote(query.id))
-    cfc_id = query.id
+#     Retorna uma representação atualizada da auto escola.
+#     """
+#     # obtendo o código da cfc a ser atualizada
+#     #cfc_id = unquote(unquote(query.id))
+#     cfc_id = query.id
 
-    # criando conexão com a base
-    session = Session()
+#     # criando conexão com a base
+#     session = Session()
 
-    # buscando a cfc a ser atualizada
-    cfc = session.query(Cfc).filter(Cfc.id == cfc_id).first()
+#     # buscando a cfc a ser atualizada
+#     cfc = session.query(Cfc).filter(Cfc.id == cfc_id).first()
 
-    if not cfc:
-        # se a cfc não foi encontrada
-        error_msg = "Cfc não encontrada na base :/"
-        return {"message": error_msg}, 404
+#     if not cfc:
+#         # se a cfc não foi encontrada
+#         error_msg = "Cfc não encontrada na base :/"
+#         return {"message": error_msg}, 404
 
-    # atualizando os atributos da cfc com os valores fornecidos
-    cfc.codigo = form.codigo
-    cfc.nome = form.nome
-    cfc.cnpj = form.cnpj
-    cfc.status = form.status
-    cfc.regiao = form.regiao
+#     # atualizando os atributos da cfc com os valores fornecidos
+#     cfc.codigo = form.codigo
+#     cfc.nome = form.nome
+#     cfc.cnpj = form.cnpj
+#     cfc.status = form.status
+#     cfc.regiao = form.regiao
 
-    try:
-        # efetuando a atualização no banco de dados
-        session.commit()
-        # retornando a representação atualizada da cfc
-        return apresenta_cfc(cfc), 200
+#     try:
+#         # efetuando a atualização no banco de dados
+#         session.commit()
+#         # retornando a representação atualizada da cfc
+#         return apresenta_cfc(cfc), 200
 
-    except Exception as e:
-        # caso ocorra algum erro durante a atualização
-        error_msg = "Não foi possível atualizar a cfc :/"
-        return {"message": error_msg}, 400
+#     except Exception as e:
+#         # caso ocorra algum erro durante a atualização
+#         error_msg = "Não foi possível atualizar a cfc :/"
+#         return {"message": error_msg}, 400
 
 @app.post('/carro', tags=[carro_tag],
           responses={"200": CarroViewSchema, "409": ErrorSchema, "400": ErrorSchema})
@@ -392,42 +392,42 @@ def del_instrutor(query: InstrutorBuscaSchema):
         #logger.warning(f"Erro ao deletar produto #'{cfc_codigo}', {error_msg}")
         return {"mesage": error_msg}, 404    
     
-@app.put('/instrutor/<id>', tags=[instrutor_tag],
-         responses={"200": InstrutorSchema, "404": ErrorSchema})
-def update_instrutor(query:InstrutorPutSchema,form: InstrutorSchema ):
-    """Atualiza um instrutor existente na base de dados
+# @app.put('/instrutor/<id>', tags=[instrutor_tag],
+#          responses={"200": InstrutorSchema, "404": ErrorSchema})
+# def update_instrutor(query:InstrutorPutSchema,form: InstrutorSchema ):
+#     """Atualiza um instrutor existente na base de dados
 
-    Retorna uma representação atualizada do instrutor.
-    """
-    # obtendo o código da cfc a ser atualizada
-    #cfc_id = unquote(unquote(query.id))
-    instrutor_id = query.id
+#     Retorna uma representação atualizada do instrutor.
+#     """
+#     # obtendo o código da cfc a ser atualizada
+#     #cfc_id = unquote(unquote(query.id))
+#     instrutor_id = query.id
 
-    # criando conexão com a base
-    session = Session()
+#     # criando conexão com a base
+#     session = Session()
 
-    # buscando a cfc a ser atualizada
-    instrutor = session.query(Instrutor).filter(Instrutor.id == instrutor_id).first()
+#     # buscando a cfc a ser atualizada
+#     instrutor = session.query(Instrutor).filter(Instrutor.id == instrutor_id).first()
 
-    if not instrutor:
-        # se a cfc não foi encontrada
-        error_msg = "Instrutor não encontrada na base :/"
-        return {"message": error_msg}, 404
+#     if not instrutor:
+#         # se a cfc não foi encontrada
+#         error_msg = "Instrutor não encontrada na base :/"
+#         return {"message": error_msg}, 404
 
-    # atualizando os atributos da cfc com os valores fornecidos
-    instrutor.cpf = form.cpf
-    instrutor.nome = form.nome
-    instrutor.aula = form.aula
-    instrutor.status = form.status
-    instrutor.cfc = form.cfc
+#     # atualizando os atributos da cfc com os valores fornecidos
+#     instrutor.cpf = form.cpf
+#     instrutor.nome = form.nome
+#     instrutor.aula = form.aula
+#     instrutor.status = form.status
+#     instrutor.cfc = form.cfc
     
-    try:
-        # efetuando a atualização no banco de dados
-        session.commit()
-        # retornando a representação atualizada da cfc
-        return apresenta_instrutor(instrutor), 200
+#     try:
+#         # efetuando a atualização no banco de dados
+#         session.commit()
+#         # retornando a representação atualizada da cfc
+#         return apresenta_instrutor(instrutor), 200
 
-    except Exception as e:
-        # caso ocorra algum erro durante a atualização
-        error_msg = "Não foi possível atualizar o instrutor :/"
-        return {"message": error_msg}, 400
+#     except Exception as e:
+#         # caso ocorra algum erro durante a atualização
+#         error_msg = "Não foi possível atualizar o instrutor :/"
+#         return {"message": error_msg}, 400

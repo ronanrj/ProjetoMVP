@@ -86,7 +86,7 @@ def get_cfc(query: CfcBuscaSchema):
 
     Retorna uma representação das auto escolas e carros e instrutores.
     """
-    cfc_codigo = query.codigo
+    cfc_codigo = unquote(unquote(query.codigo))
     #logger.debug(f"Coletando dados sobre produto #{produto_id}")
     # criando conexão com a base
     session = Session()

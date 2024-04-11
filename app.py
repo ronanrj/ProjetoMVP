@@ -220,7 +220,7 @@ def add_intrutor(form: InstrutorSchema):
         return apresenta_instrutor(instrutor), 200
 
     except IntegrityError as e:
-        # como a duplicidade do nome é a provável razão do IntegrityError
+        # como a duplicidade do cpf é a provável razão do IntegrityError
         error_msg = "instrutor de mesmo cpf já salvo na base :/"
         return {"mesage": error_msg}, 409
 
@@ -269,10 +269,8 @@ def del_instrutor(query: InstrutorBuscaSchema):
 
     if count:
         # retorna a representação da mensagem de confirmação
-
         return {"mesage": "Instrutor removido", "cpf": instrutor_cpf}
     else:
         # se o cfc não foi encontrado
         error_msg = "Instrutor não encontrado na base :/"
-
         return {"mesage": error_msg}, 404    

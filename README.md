@@ -1,5 +1,5 @@
 # ProjetoMVP backEnd API
-ProjetoMVP backEnd API - Este projeto faz parte da entrega para conclusão do mvp da sprint Desevolvimento Full Stack Básico do curso de pós graduação da PUC RIO. O obejtivo do projeto é um cadastro simples de auto escolas com relacionamento de carros e instrutores em uma base de dados sqlite
+ProjetoMVP backEnd API - Este projeto faz parte da entrega para conclusão do mvp da sprint Desevolvimento Full Stack Básico do curso de pós graduação da PUC RIO. O objetivo do projeto é um cadastro simples de auto escolas com relacionamento de carros e instrutores em uma base de dados sqlite
 
 ---
 ## Como executar 

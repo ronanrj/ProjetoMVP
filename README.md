@@ -15,7 +15,7 @@ Cria o ambiente virtual com o comando
  python -m venv env
 ```
 
-Após, ativar o ambiente com o comando
+Após, ativar o ambiente com o comando no powershell
 ```
 .\env\Scripts\Activate.ps1
 ```

@@ -10,9 +10,11 @@ Após clonar o repositório, é necessário ir ao diretório raiz, pelo terminal
 
 > Ambiente virtual Python
 
-Cria o ambiente virtual com o comando python -m venv env
+Cria o ambiente virtual com o comando
+> python -m venv env
 
-Após, ativar o ambiente com o comando .\env\Scripts\Activate.ps1
+Após, ativar o ambiente com o comando
+> .\env\Scripts\Activate.ps1
 
 Após, será necessário ter todas as libs python listadas no `requirements.txt` instaladas.
 

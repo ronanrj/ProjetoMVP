@@ -40,3 +40,6 @@ automaticamente após uma mudança no código fonte.
 ```
 
 Abra o [http://localhost:5000/#/](http://localhost:5000/#/) no navegador para verificar o status da API em execução.
+
+
+![image](https://github.com/ronanrj/ProjetoMvpBackEndApi/assets/20301129/ba3b89c5-22e3-40ec-875a-f62fd74d9da3)
